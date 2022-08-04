@@ -1,3 +1,12 @@
+Title: A Circular Progress Bar made only with div
+Authors: Federico Mainetti Gamebra (federico@monade.io)
+Abstract: how to use only div elements and some clever css to build a cool Circular Progress Bar.
+Cover image url: https://github.com/monade/monade-tech-blog/tree/master/2022/react-circular-progress-bar/images/cover.png
+Tags: fronted, react, typescript, progress bar, tutorial
+Complete: false
+
+-------
+
 **TLDR** If you aren't interested in understanding the mechanincs of this circular progress bar built without using `svg` or `canvas`, and the only thing you want is to use this component in your React application, just checkout our **[npm package](https://www.npmjs.com/package/@monade/react-circular-progress-bar)**.
 
 # A Circular Progress Bar made only with `<div/>`
