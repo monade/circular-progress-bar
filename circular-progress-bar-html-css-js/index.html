@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Circular progress bar</title>
+    <link rel="stylesheet" type="text/css" href="./index.css" />
+  </head>
+  <body>
+    <div class="container">
+      <div class="circular">
+        <div class="circle">
+          <div class="bar right">
+            <div class="progress"></div>
+          </div>
+          <div class="bar left">
+            <div class="progress"></div>
+          </div>
+        </div>
+      </div>
+      <div class="content">
+        <span>0%</span>
+      </div>
+    </div>
+    <div class="container">
+      <span>0</span>
+      <input id="input-range" type="range" />
+      <span>100</span>
+    </div>
+    <script src="./index.js"></script>
+  </body>
+</html>

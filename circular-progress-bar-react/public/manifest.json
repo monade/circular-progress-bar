@@ -1,0 +1,6 @@
+{
+  "short_name": "Cirucular progress bar",
+  "name": "React circular progress bar",
+  "start_url": ".",
+  "display": "standalone"
+}
