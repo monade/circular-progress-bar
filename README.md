@@ -109,7 +109,7 @@ Let's better understand what the purpose of each of these `<div/>` elements is:
 ```
 
 - The two `<div class="progress" />` are the actual **half-circle elements** that correctly rotated will represent the right-half of the circle (from 0% to 50%) and the left-half of the circle (from 50% to 100%).
-- `<div class="bar right">` and `<div class="bar left">` are the two **containers** we were talking about in the previous section. Their purpose is to use the clip css property to hide and show their children elements.
+- `<div class="bar right">` and `<div class="bar left">` are the two **containers** we were talking about in the previous section. Their purpose is to use the clip css property to hide and show part of their children elements.
 
 Now let's apply some basic css to get everything in place:
 
@@ -181,11 +181,11 @@ All that is left is some basic JavaScript:
 <h5 a><strong><code>index.js</code></strong></h5>
 
 ```js
-/** 
- * Waits for the document to be ready before running our js
+/**
+ * Waits for the document to be ready before running the init function
  */
 function docReady(fn) {
-  if (document.readyState === "complete" 
+  if (document.readyState === "complete"
       || document.readyState === "interactive") {
     setTimeout(fn, 1);
   } else {
@@ -195,28 +195,22 @@ function docReady(fn) {
 docReady(init);
 
 function init() {
-// set up will happen here...
+  // set up will happen here...
 
-makeProgressBarInteractive();
+  makeProgressBarInteractive();
 }
 
 function makeProgressBarInteractive() {
-let inputRef = document.getElementsByTagName("input")[0];
-inputRef.addEventListener("input", updateCiruclarProgressBar);
+  let inputRef = document.getElementsByTagName("input")[0];
+  inputRef.addEventListener("input", updateCiruclarProgressBar);
 }
 
-/\*\*
-
-- Here we'll make every necessary update to make the progress
-- bar match the slider percentage value
-  \*/
-  function updateCiruclarProgressBar(event) {
+function updateCiruclarProgressBar(event) {
   console.log(event.target.value);
 
-// fix the rotation of the circles to match the slider value...
+  // fix the rotation of the circles to match the slider value...
 }
-
-````
+```
 
 ### Step 2: Clip
 
@@ -225,7 +219,7 @@ The next step is to define a diameter in pixels and a color for our circles:
 ```js
 const DIAMETER = 500;
 const COLOR = "#ff0000";
-````
+```
 
 Now the `init` function will get the references of all the `<div/>` elements and set up the **background-color** and the **clip** properties:
 
@@ -606,10 +600,13 @@ export default function CircularProgressBar({
 If you want to use this circular progress bar in your react application we have a **[npm package](https://link.to.thingy)** for you.
 
 First we need to install the package with **npm**:
+
 ```
 npm install @monade/react-circular-progress-bar
 ```
+
 or with **yarn**:
+
 ```
 yarn add @monade/react-circular-progress-bar
 ```
@@ -617,17 +614,18 @@ yarn add @monade/react-circular-progress-bar
 Then we just need to **import** and **use** it like this:
 
 ```js
-import { CircularProgressBar } from '@monade/react-circular-progress-bar'
+import { CircularProgressBar } from "@monade/react-circular-progress-bar";
 ```
+
 ```html
 <CircularProgressBar
-  diameter={...}
-  color={...}
-  percentage={...}
-  borderWidth={...}
-  contentBackgroundColor={...}
-  className={...}
-  contentClassName={...}
+  diameter="{...}"
+  color="{...}"
+  percentage="{...}"
+  borderWidth="{...}"
+  contentBackgroundColor="{...}"
+  className="{...}"
+  contentClassName="{...}"
 >
   <span>{...}</span>
 </CircularProgressBar>
