@@ -10,7 +10,7 @@ In this article I'm going to explain how to use only **`<div/>`** elements and s
 
 ## 1. How Does It Work?
 
-![](./images/step5/final.gif)
+![](./images/react/final220speed.gif)
 
 To build a circular progress bar we'll use two important CSS properties:
 
