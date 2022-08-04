@@ -214,7 +214,7 @@ function updateCiruclarProgressBar(event) {
 
 ### Step 2: Clip
 
-The next step is to define a diameter in pixels and a color for our circles:
+The next step is to define a **diameter** in pixels and a **color** for our circles:
 
 ```js
 const DIAMETER = 500;
@@ -287,11 +287,11 @@ An important thing to note is that the `leftProgress` element must start to rota
 
 ### Step 4: Polishing the details
 
-To have a beautiful circle all that is left to do is to get rid of the `* { border: 1px solid red; }` property:
+To have a beautiful circle all that is left is to get rid of the `* { border: 1px solid red; }` property:
 
 ![](./images/step4/screen5.png)
 
-We also need to handle with JavaScript the question of the height and width that was initially hardcoded in the css.
+We also need to handle with JavaScript the question of the height and width that was initially hardcoded in the css:
 
 ```css
 .circular {
@@ -300,6 +300,8 @@ We also need to handle with JavaScript the question of the height and width that
   /* remove -> width: 500px; */
 }
 ```
+
+and replace it with:
 
 ```js
 let circularRef = null;
@@ -380,31 +382,23 @@ Now that we have a full circle that fills up based on a percentage, the next ste
 <h5 a><strong><code>index.html</code></strong></h5>
 
 ```html
+<!-- ... -->
 <div class="container">
   <div class="circular">
-    <div class="circle">
-      <div class="bar right">
-        <div class="progress"></div>
-      </div>
-      <div class="bar left">
-        <div class="progress"></div>
-      </div>
-    </div>
+    <!-- ... -->
   </div>
   <div class="content">
     <span>0%</span>
   </div>
 </div>
-<div class="container">
-  <span>0</span>
-  <input id="input-range" type="range" />
-  <span>100</span>
-</div>
+<!-- ... -->
 ```
 
 <h5 a><strong><code>index.css</code></strong></h5>
 
 ```css
+/* ... */
+
 .content {
   position: absolute;
   z-index: 1000;
@@ -453,14 +447,14 @@ The final result looks like this:
 
 Now that we have a good understangind of the mechanics behind this circular progress bar, let's wrap everything we have said so far in a **React component**.
 
-We want the react component to be **as customizable as possible** throught props:
+We want the react component to be **as customizable as possible** throught props like:
 
 - **percentage of progress**
 - **diameter**
 - **color**
 - **border width**
 - **content background color**
-- **content as a child**
+- **content as a children element**
 
 ![](./images/react/final220speed.gif)
 
@@ -595,9 +589,11 @@ export default function CircularProgressBar({
 }
 ```
 
+That's it. Now we have a fully customized and reusable circular progress bar that we can easily throw in any of our projects.
+
 ## 3. npm package
 
-If you want to use this circular progress bar in your react application we have a **[npm package](https://link.to.thingy)** for you.
+If you want to use this circular progress bar in your React application we have made an **[npm package](https://link.to.thingy)** for you.
 
 First we need to install the package with **npm**:
 
@@ -633,7 +629,7 @@ import { CircularProgressBar } from "@monade/react-circular-progress-bar";
 
 ## 4. Use case: Hippopod's Player
 
-My journey through the problem of circular progress bars in web development started when I was working on **Hippopod**, an open source project that transform an RSS feed into a static podcast websites.
+My journey through the problem of circular progress bars in web development started when I was working on **Hippopod**, an open source project that takes an RSS feed and transform it in a static podcast websites.
 
 During the development I found myself having to develop an audio player, whose play / pause button component had to take care of showing the progress of the track being played like this:
 
