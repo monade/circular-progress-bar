@@ -1,53 +1,55 @@
-**TLDR** If you are not interested in understanding the mechanincs of a circular progress bar built without using svg or canvas, and the only thing you want is to use this component in your React application, just checkout our **npm package** at **https://github.com/TODO**
+**TLDR** If you aren't interested in understanding the mechanincs of this circular progress bar built without using `svg` or `canvas`, and the only thing you want is to use this component in your React application, just checkout our **[npm package](https://www.npmjs.com/package/@monade/react-circular-progress-bar)**.
 
-# A Circular Progress Bar with only `<div/>`
+# A Circular Progress Bar made only with `<div/>`
 
 Working with curved elements in HTML is not simple, developers usually find themselves having to use elements like `<canvas>` or `<svg>` to accomplish their goals.
 
-## 1. The Problem: Hippopod Player
+For example, an horizontal progress bar is very simple to make in HTML + CSS + JS, however, to make it round, the complexity is much greater.
 
-A while ago, my team and I were working on an open-source project called **[Hippopod](https://hippopod.xyz/)**, the purpose of which is to automatically create websites from an RSS feed of a podcast.
+In this article I'm going to explain how to use only **`<div/>`** elements and some clever **CSS** to build a cool **circular progress bar**.
 
-Within the generated sites there is an audio player, whose development was my responsibility. The play/pause button of the player had to show the progress of the track being player in a circular way.
-
-<img src="./images//hippopod-player.png" alt="hippopod player" width="400"/>
-
-An horizontal progress bar is very simple to make in HTML + CSS + JS, however, to make it round, the complexity is much greater.
-
-So here it begins my journey throught the problem of circular progress bars.
-
-## 2. Core Concepts: How Does It Work?
+## 1. How Does It Work?
 
 ![](./images/step5/final.gif)
 
 To build a circular progress bar we'll use two important CSS properties:
-- **[Clip](https://developer.mozilla.org/en-US/docs/Web/CSS/clip)**: this property allows us to identify a visibility rectangle for an element whose position is absolute (es. `clip: rect(1px, 10em, 3rem, 2ch);`). Any children that is not inside the specified rectangle will not be rendered.
-- **[Transform](https://developer.mozilla.org/en-US/docs/Web/CSS/transform)**: this property is very powerful and we will only use it to rotate some elements.
+
+- **[Clip](https://developer.mozilla.org/en-US/docs/Web/CSS/clip)**: this property allows us to identify a **visibility rectangle** for an element whose position is absolute (es. `clip: rect(1px, 10em, 3rem, 2ch);`). Any children that is not positioned inside the visibility rectangle will not be rendered.
+- **[Transform](https://developer.mozilla.org/en-US/docs/Web/CSS/transform)**: this property is very powerful, but we will only use it to **rotate** some elements.
 
 The technique I will show you breaks the circle into two halves, the one on the right (from 0% to 50%) and the one on the left (from 50% to 100%).
-To understand more easily how it works, we initially analyze only the right half and then apply the same reasoning rotated by 180 degrees to complete the left half as well.
+To understand more easily how it works, we initially analyze only the right half and then we duplicate the element and apply the same reasoning rotated by 180 degrees to complete the left half as well.
 
-There are two main elements:
-- A **container** as big as the whole circle.
-- A child element of this container that is actually a **full colored circle**.
+So, for the first half of the circle there are two main elements:
+
+- a square **container** `div`, that contains
+- the actual full **circle** `div`.
+
+The container height and width are the same as the circle's ones, like this:
+
+![](./images/howDoesItWorks/screen00.png)
 
 With the **clip** property **applied to the circle** we can hide his right half, obtaining only a left half circle.
 
-With the **clip** property **applied to the container** we can hide anything that is in the left half and show anything that is in the right half.
+![](./images/howDoesItWorks/screen01.png)
 
-So at this moment we are at the 0% progress and we do not see anything on the screen, because the half colored circle is positioned in the left half, and the left half of the circle is clipped by the container.
+With the **clip** property **applied to the container** we can hide anything that is in the left half and show anything that is in the right half. Since there is nothing to show in the right half we now have an empty square, that secretly hides half a circle.
 
-If we want to show some of the progress we just need to rotare the half colored circle so that it starts to show in the non-clipped right side.
+![](./images/howDoesItWorks/screen02.png)
 
-So at this moment, rotating the child element, we can fill as we want the right side.
+Now, if we slightly rotate the hidden half circle with the **tranform** property, we will see it come out on the right side, like this:
 
-With the same reasoning, but mirrored, we can manage the left half of the circle. This means that we have to add a second pair of **container** and **circle**, both rotated by 180 degrees in order to take care of the left side.
+![](./images/howDoesItWorks/screen03.png)
 
-## 3. Let's make it in plain HTML, CSS and JavaScript
+So if we want to show some of the progress we just need to rotare the half colored circle so that it starts to show in the non-clipped right side.
 
-Proviamo a mettere in pratica quello che ci siamo detti prima con una semplice pagina in puro HTML, CSS e JavaScript.
+This process only covers the progress of the right half (from 0% to 50%), but if we apply the same reasoning for the other half and we put some logic behind the rotation, we can achieve the illusion of a circular progress bar.
 
-Sentiti libero di seguire passo passo, o se vuoi saltare alla soluzione definitiva, trovi tutto il codice che verrà usato **[qui](https://github.com/monade/TODO)**.
+## 2. Let's build it with HTML, CSS and JavaScript
+
+Let's put everything we said in practice with a simple and plain HTML, CSS and JavaScript application.
+
+Feel free to follow along step by step, or if you want to skip to the final solution, you can find all the code that will be used in this section **[here](https://github.com/monade/circular-progress-bar/tree/main/circular-progress-bar-html-css-js)**.
 
 ### Step 1: Basic Structure
 
@@ -55,7 +57,10 @@ The first step we'll take is to get all the elements we need in place:
 
 ![](./images/step1/screen1.png)
 
-Iniziamo con un semplice file `index.html` che contiene due elementi, uno slider per controllare la percentuale di progresso e un insieme di `<div/>` che rappresentano la barra di progresso circolare su cui lavoreremo.
+Let's start with a simple `index.html` that contains two main elements:
+
+- a **slider** to control the percentage of progress and
+- a **group of `<div/>` elements** that represent the ciruclar progress bar.
 
 <h5 a><strong><code>index.html</code></strong></h5>
 ```html
@@ -90,25 +95,24 @@ Iniziamo con un semplice file `index.html` che contiene due elementi, uno slider
 </html>
 ```
 
-Analiziamo meglio la struttura dei `<div />` che rappresentano la nostra barra di caricamento circolare:
+Let's better understand what the purpose of each of these `<div/>` elements is:
 
 ```html
-<div class="circle">
-  <div class="bar right">
-    <div class="progress"></div>
-  </div>
-  <div class="bar left">
-    <div class="progress"></div>
-  </div>
+<div class="bar right">
+  <div class="progress" />
+</div>
+<div class="bar left">
+  <div class="progress" />
 </div>
 ```
-- `<div class="circle">` its the container of our circular progress bar.
-- The two `<div class="progress"></div>` are the actual half-circle elements that correctly rotated will represent the right-half of the circle (from 0% to 50%) and the left-half of the circle (from 50% to 100%).
-- `<div class="bar right">` and `<div class="bar left">` are two containers as big as the full circles, but that will have the css clip property set so that they'll let their children be visible only for half of the circle, leaving the other half transparent.
 
-Now let's apply some basic css to get everything in place, our file index.css will look like this:
+- The two `<div class="progress" />` are the actual **half-circle elements** that correctly rotated will represent the right-half of the circle (from 0% to 50%) and the left-half of the circle (from 50% to 100%).
+- `<div class="bar right">` and `<div class="bar left">` are the two **containers** we were talking about in the previous section. Their purpose is to use the clip css property to hide and show their children elements.
+
+Now let's apply some basic css to get everything in place:
 
 <h5 a><strong><code>index.css</code></strong></h5>
+
 ```css
 /* this css rule is used only to help us with visual debug */
 * {
@@ -142,7 +146,10 @@ body {
   margin: 0;
   padding: 0;
 
-  /* diameter of the circle, we'll remove this later*/
+  /*
+  * Diameter of the circle: 500px, 
+  * we'll fix the fact that this value is hardcoded later 
+  */
   height: 500px;
   width: 500px;
 }
@@ -163,10 +170,12 @@ body {
 ```
 
 All this css is pretty straight forward, the only things to note are:
+
 - `* { border: 1px solid red; }` is used only for visual debug purpose
 - in the `.circular { /*...*/ }` rule we hardcode the height and the width to match the diamater of the circle of the progress bar we are going to create, but this is only temporary, we'll remove it later.
 
-And now some basic javascript
+All that is left is some basic JavaScript:
+
 <h5 a><strong><code>index.js</code></strong></h5>
 ```js
 /** 
@@ -182,44 +191,40 @@ function docReady(fn) {
 }
 docReady(init);
 
-/**
- * This is the first function that we'll be called.
- * It's purpose will be to set up anything we need
- */
 function init() {
-  // set up will happen here...
+// set up will happen here...
 
-  makeProgressBarInteractive();
+makeProgressBarInteractive();
 }
 
 function makeProgressBarInteractive() {
-  let inputRef = document.getElementsByTagName("input")[0];
-  inputRef.addEventListener("input", updateCiruclarProgressBar);
+let inputRef = document.getElementsByTagName("input")[0];
+inputRef.addEventListener("input", updateCiruclarProgressBar);
 }
 
-/**
- * Here we'll make every necessary update to make the progress 
- * bar match the slider percentage value
- */
-function updateCiruclarProgressBar(event) {
+/\*\*
+
+- Here we'll make every necessary update to make the progress
+- bar match the slider percentage value
+  \*/
+  function updateCiruclarProgressBar(event) {
   console.log(event.target.value);
 
-  // updating the progress will happen here...
+// fix the rotation of the circles to match the slider value...
 }
-```
+
+````
 
 ### Step 2: Clip
 
-Ora proviamo a rendere dinamica questa progress bar circolare.
-
-Per prima cosa definiamo un diametro e un colore:
+The next step is to define a diameter in pixels and a color for our circles:
 
 ```js
 const DIAMETER = 500;
 const COLOR = "#ff0000";
-```
+````
 
-Poi la nostra funzione `init` si occuperà di prendere i riferimenti ai vari componenti della progress bar circolare e di settare il colore del cerchio e le varie proprietà clip in modo che la barra di progresso si trovi nello stato di partenza di 0%:
+Now the `init` function will get the references of all the `<div/>` elements and set up the **background-color** and the **clip** properties:
 
 ```js
 let inputRef = null;
@@ -256,7 +261,7 @@ function init() {
 
 ### Step 3: Rotate
 
-Ora non ci rimane altro che ruotare i due componenti `progress` accordingly to the percentage we want
+Now the fun part! Let's rotate the `rightProgress` and `leftProgress` elements accordingly to the percentage value of the slider.
 
 ![](./images/step3/screen4.png)
 
@@ -281,31 +286,23 @@ function updateCiruclarProgressBar(event) {
 }
 ```
 
+An important thing to note is that the `leftProgress` element must start to rotate only when the percentage of progress reaches 50%, on the other side, the `rightProgress` element must stop his rotation when the percentage of progress reaches 50%.
+
 ### Step 4: Polishing the details
+
+To have a beautiful circle all that is left to do is to get rid of the `* { border: 1px solid red; }` property:
 
 ![](./images/step4/screen5.png)
 
-togliamo questa regola css, così da poter vedere il risulato finale
-
-```css
-* {
-  border: 1px solid red;
-}
-```
-
-Dobbiamo sistemare la questione dell'altezza e della larghezza di questo elemento che inizialmente era stato hardcodato:
+We also need to handle with JavaScript the question of the height and width that was initially hardcoded in the css.
 
 ```css
 .circular {
   /*...*/
-
-  /* diameter */
-  height: 500px;
-  width: 500px;
+  /* remove -> height: 500px; */
+  /* remove -> width: 500px; */
 }
 ```
-
-e nel index.js lo settiamo così:
 
 ```js
 let circularRef = null;
@@ -319,7 +316,7 @@ function init() {
 }
 ```
 
-Infine, unendo tutto quello che abbiamo detto, il nostro file javascript sarà fatto così:
+At the end our JavaScript file will look like this:
 
 ```js
 const DIAMETER = 500;
@@ -381,10 +378,9 @@ docReady(init);
 
 ![](./images/step5/screen7.png)
 
-Ora abbiamo un cerchio che si riempie in base a una percentuale controllata da uno slider, per fare un passo ancora in più proviamo a inserire del contenuto al centro della nostra barra di caricamento, in particolare vorremmo vedere la percentuale di progresso al centro del cerchio. per farlo aggiungiamo l'elemento `<div class="content"><span>0%</span></div>` che manipoleremo con css e javascript.
+Now that we have a full circle that fills up based on a percentage, the next step would be to put some content inside the circle. I have decided to simply show a slightly smaller circle colored as the background (white) with the percentage written in the center.
 
-The HTML:
-
+<h5 a><strong><code>index.html</code></strong></h5>
 ```html
 <div class="container">
   <div class="circular">
@@ -408,7 +404,7 @@ The HTML:
 </div>
 ```
 
-The CSS:
+<h5 a><strong><code>index.css</code></strong></h5>
 
 ```css
 .content {
@@ -423,10 +419,11 @@ The CSS:
 }
 ```
 
-And the JS:
+<h5 a><strong><code>index.js</code></strong></h5>
+
 ```js
 const BORDER_WIDTH = 20;
-const BACKGROUND_COLOR = '#ffffff';
+const BACKGROUND_COLOR = "#ffffff";
 
 let content = null;
 
@@ -456,21 +453,23 @@ The final result looks like this:
 
 ## 4. Let's make it in React
 
-The next step is to wrap everything we have said so far in a React component.
+Now that we have a good understangind of the mechanics behind this circular progress bar, let's wrap everything we have said so far in a **React component**.
 
-We want the react component to be as customizable as possible throught the definition of props such as:
-- percentage of progress
-- diameter
-- color
-- border width
-- content background color
-- content as a child
+We want the react component to be **as customizable as possible** throught props:
+
+- **percentage of progress**
+- **diameter**
+- **color**
+- **border width**
+- **content background color**
+- **content as a child**
 
 ![](./images/react/final220speed.gif)
 
-If you have understand what we have done till now and now a little of react you'll notice that this component is very simple:
+**Note**: this component is **typescript friendly**.
 
 <h5 a><strong><code>circularProgressBar.tsx</code></strong></h5>
+
 ```ts
 import { MutableRefObject, useEffect, useRef } from "react";
 import "./circularProgressBar.css";
@@ -479,7 +478,7 @@ interface circularProgressBarPropsInterface {
   color: string;
   diameter: number;
   percentage: number;
-  borderWidth?: number; 
+  borderWidth?: number;
   contentBackgroundColor?: string;
   className?: string;
   contentClassName?: string;
@@ -502,6 +501,7 @@ export default function CircularProgressBar({
   const leftProgress = useRef<HTMLDivElement>(null) as MutableRefObject<HTMLDivElement>;
   const content = useRef<HTMLDivElement>(null) as MutableRefObject<HTMLDivElement>;
 
+  // setup dimensions, colors, and clip properties
   useEffect(() => {
     if (borderWidth) {
       content.current.style.height = diameter - borderWidth + "px";
@@ -522,6 +522,7 @@ export default function CircularProgressBar({
     leftProgress.current.style.backgroundColor = `${color}`;
   }, [color, diameter, borderWidth, contentBackgroundColor]);
 
+  // handles the rotation
   useEffect(() => {
     if (!percentage) {
       rightProgress.current.style.transform = `rotate(0deg)`;
@@ -553,13 +554,14 @@ export default function CircularProgressBar({
   );
 }
 ```
+
 <h5 a><strong><code>circularProgressBar.css</code></strong></h5>
+
 ```css
 .container {
   display: flex;
   justify-content: center;
   align-items: center;
-
   padding: 20px;
 }
 
@@ -595,23 +597,23 @@ export default function CircularProgressBar({
 }
 ```
 
-## 4. npm package
+## 3. npm package
 
 If you want to use this circular progress bar in your react application we have a **[npm package](https://link.to.thingy)** for you.
 
-To use it you can simply
+First we need to install the package with **npm**:
 ```
-npm install react-circular-progress-bar
+npm install @monade/react-circular-progress-bar
 ```
-or if you use `yarn`
+or with **yarn**:
 ```
-yard add react-circular-progress-bar
+yarn add @monade/react-circular-progress-bar
 ```
 
-Then you just need to import it and use it like this:
+Then we just need to **import** and **use** it like this:
 
 ```js
-import { CircularProgressBar } from 'react-circular-progress-bar'
+import { CircularProgressBar } from '@monade/react-circular-progress-bar'
 ```
 ```html
 <CircularProgressBar
@@ -626,3 +628,13 @@ import { CircularProgressBar } from 'react-circular-progress-bar'
   <span>{...}</span>
 </CircularProgressBar>
 ```
+
+## 4. Use case: Hippopod's Player
+
+My journey through the problem of circular progress bars in web development started when I was working on **Hippopod**, an open source project that transform an RSS feed into a static podcast websites.
+
+During the development I found myself having to develop an audio player, whose play / pause button component had to take care of showing the progress of the track being played like this:
+
+<img src="./images//hippopod-player.png" alt="hippopod player" width="400"/>
+
+If you are interested in what Hippopod is, check it out at **[hippopod.xyz](https://hippopod.xyz/)**
