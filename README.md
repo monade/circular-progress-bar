@@ -18,12 +18,13 @@ To build a circular progress bar we'll use two important CSS properties:
 - **[Transform](https://developer.mozilla.org/en-US/docs/Web/CSS/transform)**: this property is very powerful, but we will only use it to **rotate** some elements.
 
 The technique I will show you breaks the circle into two halves, the one on the right (from 0% to 50%) and the one on the left (from 50% to 100%).
-To understand more easily how it works, we initially analyze only the right half and then we duplicate the element and apply the same reasoning rotated by 180 degrees to complete the left half as well.
+To better understand how we can achive this goal, we'll initially analize
+To understand more easily how it works, initially we'll analyze only the right half, and, for the left half, we'll just need to apply the same reasoning but mirrored.
 
 So, for the first half of the circle there are two main elements:
 
-- a square **container** `div`, that contains
-- the actual full **circle** `div`.
+- a square **container** `div`, that contains...
+- ...the actual full **circle** `div`.
 
 The container height and width are the same as the circle's ones, like this:
 
@@ -33,7 +34,7 @@ With the **clip** property **applied to the circle** we can hide his right half,
 
 ![](./images/howDoesItWorks/screen01.png)
 
-With the **clip** property **applied to the container** we can hide anything that is in the left half and show anything that is in the right half. Since there is nothing to show in the right half we now have an empty square, that secretly hides half a circle.
+With the **clip** property **applied to the container** we can hide anything that is in the left half and only show what is in the right half. Since there is nothing to show in the right half we now have an empty square, that secretly hides half a circle.
 
 ![](./images/howDoesItWorks/screen02.png)
 
@@ -41,7 +42,7 @@ Now, if we slightly rotate the hidden half circle with the **tranform** property
 
 ![](./images/howDoesItWorks/screen03.png)
 
-So if we want to show some of the progress we just need to rotare the half colored circle so that it starts to show in the non-clipped right side.
+So, if we want to show some progress, we just need to rotare the half colored circle so that it starts to show in the non-clipped right side.
 
 This process only covers the progress of the right half (from 0% to 50%), but if we apply the same reasoning for the other half and we put some logic behind the rotation, we can achieve the illusion of a circular progress bar.
 
@@ -49,7 +50,7 @@ This process only covers the progress of the right half (from 0% to 50%), but if
 
 Let's put everything we said in practice with a simple and plain HTML, CSS and JavaScript application.
 
-Feel free to follow along step by step, or if you want to skip to the final solution, you can find all the code that will be used in this section **[here](https://github.com/monade/circular-progress-bar/tree/main/circular-progress-bar-html-css-js)**.
+Feel free to follow along step by step, or, if you want to skip to the final solution, you can find all the code that will be used in this section **[here](https://github.com/monade/circular-progress-bar/tree/main/circular-progress-bar-html-css-js)**.
 
 ### Step 1: Basic Structure
 
@@ -60,9 +61,10 @@ The first step we'll take is to get all the elements we need in place:
 Let's start with a simple `index.html` that contains two main elements:
 
 - a **slider** to control the percentage of progress and
-- a **group of `<div/>` elements** that represent the ciruclar progress bar.
+- a **group of `<div/>` elements** that represent the ciruclar progress bar as explained in the above section.
 
 <h5 a><strong><code>index.html</code></strong></h5>
+
 ```html
 <!DOCTYPE html>
 <html lang="en">
@@ -177,6 +179,7 @@ All this css is pretty straight forward, the only things to note are:
 All that is left is some basic JavaScript:
 
 <h5 a><strong><code>index.js</code></strong></h5>
+
 ```js
 /** 
  * Waits for the document to be ready before running our js
@@ -381,6 +384,7 @@ docReady(init);
 Now that we have a full circle that fills up based on a percentage, the next step would be to put some content inside the circle. I have decided to simply show a slightly smaller circle colored as the background (white) with the percentage written in the center.
 
 <h5 a><strong><code>index.html</code></strong></h5>
+
 ```html
 <div class="container">
   <div class="circular">
