@@ -12,7 +12,7 @@ interface circularProgressBarPropsInterface {
   children?: JSX.Element;
 }
 
-export default function CircularProgressBar({
+export function CircularProgressBar({
   color,
   diameter,
   percentage,

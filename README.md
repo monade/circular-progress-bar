@@ -466,12 +466,12 @@ We want the react component to be as customizable as possible throught the defin
 - content background color
 - content as a child
 
-![](./images/react/final220%speed.gif)
+![](./images/react/final220speed.gif)
 
 If you have understand what we have done till now and now a little of react you'll notice that this component is very simple:
 
 <h5 a><strong><code>circularProgressBar.tsx</code></strong></h5>
-```tsx
+```ts
 import { MutableRefObject, useEffect, useRef } from "react";
 import "./circularProgressBar.css";
 
@@ -597,3 +597,32 @@ export default function CircularProgressBar({
 
 ## 4. npm package
 
+If you want to use this circular progress bar in your react application we have a **[npm package](https://link.to.thingy)** for you.
+
+To use it you can simply
+```
+npm install react-circular-progress-bar
+```
+or if you use `yarn`
+```
+yard add react-circular-progress-bar
+```
+
+Then you just need to import it and use it like this:
+
+```js
+import { CircularProgressBar } from 'react-circular-progress-bar'
+```
+```html
+<CircularProgressBar
+  diameter={...}
+  color={...}
+  percentage={...}
+  borderWidth={...}
+  contentBackgroundColor={...}
+  className={...}
+  contentClassName={...}
+>
+  <span>{...}</span>
+</CircularProgressBar>
+```
